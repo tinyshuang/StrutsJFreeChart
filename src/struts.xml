@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<constant name="struts.ognl.allowStaticMethodAccess" value="true"></constant>
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.multipart.maxSize" value="1000000"/>
+	
+	<package name="helloworld" extends="jfreechart-default">  
+    <action name="pie" class="pieAction">  
+        <result type="chart">  
+            <param name="width">400</param>  
+            <param name="height">300</param>  
+        </result>  
+    </action> 
+    
+    <action name="pieExplode" class="pieExplodeAction">  
+        <result type="chart">  
+            <param name="width">400</param>  
+            <param name="height">300</param>  
+        </result>  
+    </action> 
+    
+    <action name="pie3d" class="pie3dAction">  
+        <result type="chart">  
+            <param name="width">400</param>  
+            <param name="height">300</param>  
+        </result>  
+    </action> 
+    <action name="pie3dLucency" class="pie3dLucencyAction">  
+        <result type="chart">  
+            <param name="width">400</param>  
+            <param name="height">300</param>  
+        </result>  
+    </action> 
+    
+    
+    
+    
+    <action name="bar" class="barAction">  
+        <result type="chart">  
+            <param name="width">700</param>  
+            <param name="height">500</param>  
+        </result>  
+    </action>   	
+    <action name="double" class="doubleDimensionsBarAction">  
+        <result type="chart">  
+            <param name="width">700</param>  
+            <param name="height">500</param>  
+        </result>  
+    </action>   	
+    <action name="custom" class="customBarAction">  
+        <result type="chart">  
+            <param name="width">700</param>  
+            <param name="height">500</param>  
+        </result>  
+    </action>  
+    <action name="line" class="lineAction">  
+        <result type="chart">  
+            <param name="width">700</param>  
+            <param name="height">500</param>  
+        </result>  
+    </action>  
+    
+    <action name="pointLine" class="pointLineAction">  
+        <result type="chart">  
+            <param name="width">700</param>  
+            <param name="height">500</param>  
+        </result>  
+    </action>  
+    
+    <action name="curve" class="curveAction">  
+        <result type="chart">  
+            <param name="width">700</param>  
+            <param name="height">500</param>  
+        </result>  
+    </action>  
+    
+    
+    
+    
+    
+    
+     	
+	</package>	
+	
+	
+	
+
+
+</struts>

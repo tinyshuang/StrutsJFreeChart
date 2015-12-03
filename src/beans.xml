@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+ xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	 xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:jee="http://www.springframework.org/schema/jee"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+     xmlns:p="http://www.springframework.org/schema/p" 
+    xsi:schemaLocation="http://www.springframework.org/schema/beans  
+      http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context
+         http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+         http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+          http://www.springframework.org/schema/jee
+         http://www.springframework.org/schema/jee/spring-jee-3.2.xsd
+         http://www.springframework.org/schema/tx 
+         http://www.springframework.org/schema/tx/spring-tx-3.2.xsd"> 
+         
+         
+<!--注解的使用,必须配置..扫描时使用  --> 
+<!--下面的包名需要根据变化变化 -->   
+<context:annotation-config></context:annotation-config>
+<context:component-scan base-package="hxk"></context:component-scan>
+<!-- 使用切面注解时必须的 -->
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+<!-- 定义数据源bean -->
+	<context:property-placeholder location="classpath:jdbc.properties" />
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+		<property name="driverClass" value="${jdbc.driverClassName}" />
+		<property name="jdbcUrl" value="${jdbc.url}" />
+		<property name="user" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 指定连接数据库连接池的最大连接 -->
+		<property name="maxPoolSize" value="50" />
+		<!-- 指定连接数据库连接池的最小连接 -->
+		<property name="minPoolSize" value="10" />
+		<!-- 指定连接数据库连接池的初始化连接数 -->
+		<property name="initialPoolSize" value="10" />
+		<property name="acquireIncrement" value="5" />
+		<property name="numHelperThreads" value="10" />
+		<property name="maxStatementsPerConnection" value="10" />
+		<property name="idleConnectionTestPeriod" value="10000" />
+		<property name="testConnectionOnCheckin" value="true" />
+		<!-- 指定连接数据库连接池的最大空闲时间 -->
+		<property name="maxIdleTime" value="28000" />
+	</bean>
+	<!-- 定义hibernate的sessionFactory -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource"  ref="dataSource"/>
+		<!--这里定义实体类注解的扫描的包 ,需要更改-->
+		<property name="packagesToScan" >
+			<list>
+				<value>hxk.model</value>
+			</list>
+		</property>  
+		<property name="hibernateProperties">
+			<props>  
+                <prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>  
+                <prop key="hibernate.show_sql">true</prop>  
+                <prop key="hibernate.format_sql">true</prop>  
+                <prop key="hibernate.jdbc.fetch_size">50</prop>  
+                <prop key="hibernate.jdbc.batch_size">25</prop> 
+                <!--  避免createClob() method threw error -->
+                <prop key="hibernate.temp.use_jdbc_metadata_defaults">false</prop> 
+                <!--特么的这句千万不能加,否则报错  -->
+             <!--    <prop key="hibernate.current_session_context_class">thread</prop> -->
+            </props>
+		</property>
+	</bean>
+	
+	 <bean id="transactionManager" class="org.springframework.orm.hibernate4.HibernateTransactionManager">  
+        <property name="sessionFactory" ref="sessionFactory" />  
+    </bean> 
+    
+      <tx:annotation-driven transaction-manager="transactionManager"/>
+  
+    
+</beans> 
